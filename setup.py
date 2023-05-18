@@ -36,6 +36,7 @@ setup(
             "hifi-export = hifi_gan_bwe.scripts.export:main",
             "hifi-synth = hifi_gan_bwe.scripts.synth:main",
             "hifi-train = hifi_gan_bwe.scripts.train:main",
+            "hifi-train_music = hifi_gan_bwe.scripts.train_music:main",
         ]
     },
     classifiers=[
