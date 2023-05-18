@@ -318,13 +318,13 @@ def main() -> None:
     parser.add_argument(
         "--vctk_path",
         type=Path,
-        default="./data/vctk",
+        default="/home/plitsis/super_res/VCTK",
         help="path to the VCTK speech dataset",
     )
     parser.add_argument(
         "--noise_path",
         type=Path,
-        default="./data/dns",
+        default="/home/plitsis/super_res/DNS-Challenge/noise_fullband",
         help="path to the DNS noise dataset",
     )
     parser.add_argument(
