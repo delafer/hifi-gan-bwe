@@ -93,7 +93,9 @@ class WavDataset(torch.utils.data.Dataset):
                     audio = audio[offset : offset + seq_length]
 
                 # conver the audio from PCM-16 to float32
-                return audio.astype(np.float32) / 32767.0
+                # return audio.astype(np.float32) / 32767.0
+                audio=audio.astype(np.float32) / 32767.0
+                return audio
 
 
 class VCTKDataset(WavDataset):
@@ -111,6 +113,25 @@ class VCTKDataset(WavDataset):
     def eval_set(self) -> T.List[np.ndarray]:
         speaker_paths = group_by(self.paths, lambda p: p.parent.name)
         return [self.load(self.paths.index(p[0])) for p in speaker_paths.values()]
+    
+class MusicDataset(WavDataset):
+    """Music dataset wrapper"""
+
+    def __init__(self, path: str, training: bool):
+        # paths = sorted((Path(path) / "albums").glob("*"))
+        if training:
+            path=path/"wav_48k"
+        else:
+            path=path/"wav_48k"
+        super().__init__(
+            paths=Path(path).glob("**/*.wav"),
+            seq_length=SEQ_LENGTH,
+        )
+
+    @property
+    def eval_set(self) -> T.List[np.ndarray]:
+        speaker_paths = group_by(self.paths, lambda p: p.name.split(".")[0][:2])
+        return [self.load(self.paths.index(p[0]),seq_length=4*SAMPLE_RATE) for p in speaker_paths.values()][:10]
 
 
 class DNSDataset(WavDataset):

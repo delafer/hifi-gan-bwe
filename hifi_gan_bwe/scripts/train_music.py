@@ -38,8 +38,8 @@ class Trainer(torch.nn.Module):
         super().__init__()
 
         # load training, validation, and noise datasets
-        self.train_set = datasets.VCTKDataset(args.vctk_path, training=True)
-        self.valid_set = datasets.VCTKDataset(args.vctk_path, training=False)
+        self.train_set = datasets.MusicDataset(args.music_path, training=True)
+        self.valid_set = datasets.MusicDataset(args.music_path, training=False)
         noise_set = datasets.DNSDataset(args.noise_path)
         self.train_loader = torch.utils.data.DataLoader(
             self.train_set,
@@ -93,7 +93,7 @@ class Trainer(torch.nn.Module):
 
         # create the metrics summary, which is used for wandb logging
         self.metrics = metrics.Summary(
-            project="hifi-gan-bwe",
+            project="hifi-gan-bwe-music",
             name=self.name,
             log_path=self.log_path,
             scalars=[
@@ -316,10 +316,10 @@ def main() -> None:
         help="training run name",
     )
     parser.add_argument(
-        "--vctk_path",
+        "--music_path",
         type=Path,
-        default="/home/plitsis/super_res/VCTK",
-        help="path to the VCTK speech dataset",
+        default="/home/plitsis/super_res/bwe/data",
+        help="path to the music dataset",
     )
     parser.add_argument(
         "--noise_path",

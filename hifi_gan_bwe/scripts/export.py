@@ -59,7 +59,10 @@ def main() -> None:
     # create the target model path
     target_path = args.target_path
     if target_path is None:
-        model_name = f"{source_path.name}-{datasets.SAMPLE_RATE // 1000}kHz.pt"
+        if args.checkpoint is not None:
+            model_name = f"{source_path.name}-ckpt-{args.checkpoint}k-{datasets.SAMPLE_RATE // 1000}kHz.pt"
+        else:
+            model_name = f"{source_path.name}-{datasets.SAMPLE_RATE // 1000}kHz.pt"
         target_path = Path(__file__).parents[2] / "models" / model_name
     target_path.parent.mkdir(parents=True, exist_ok=True)
 
